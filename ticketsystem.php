@@ -1,26 +1,24 @@
 <?php
 session_start();
 
-// Überprüfen, ob der Benutzer eingeloggt ist
+// Prüft ob der Benutzer Angemdeldet ist
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header("Location: login.php");
     exit();
 }
 
 $servername = "localhost";
-$username = "admin"; // Benutzername, wie in deiner SQL-Anweisung
-$password = "Passwort123!"; // Dein Passwort
-$dbname = "ticketsystem"; // Der Name der Datenbank
+$username = "admin";
+$password = "Passwort123!";
+$dbname = "ticketsystem";
 
-// Erstelle Verbindung
+// Connection String
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Prüfe die Verbindung
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Formular-Verarbeitung: Ticket erstellen
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ticket_name = $_POST['name'];
     $ticket_prioritaet = $_POST['prioritaet'];
@@ -36,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// Alle Tickets anzeigen
+// Tickets Anzeigen
 $sql = "SELECT Id, Name, Prioritaet, Status, Beschreibung FROM tickets";
 $result = $conn->query($sql);
 
